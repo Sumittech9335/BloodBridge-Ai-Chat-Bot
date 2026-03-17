@@ -2,6 +2,7 @@
 const sendBtn = document.getElementById("send-btn");
 const userInput = document.getElementById("user-input");
 const chatBox = document.getElementById("chat-box");
+const micBtn = document.getElementById("mic-btn");
 
 const chatTab = document.getElementById("chat-tab");
 const historyTab = document.getElementById("history-tab");
@@ -11,7 +12,7 @@ const historyList = document.getElementById("history-list");
 const clearHistoryBtn = document.getElementById("clear-history");
 
 // Gemini API
-let GEMINI_API_KEY = "AIzaSyAp8fdRBapj4P4TRg2s-X6Nr6foiiWfxWQ";
+let GEMINI_API_KEY = "AIzaSyA55ofvc6YB2CEkGLA7hYU47p-_BHkxo_4";
 let GEMINI_MODEL = "gemini-2.5-flash";
 
 let chatHistory = [];
@@ -32,8 +33,24 @@ const emergencyWords = [
 ];
 
 
-// LOCATION DETECTION
+// 🔊 HINDI VOICE SPEAK FUNCTION
+function speakHindi(text){
 
+const cleanText = text
+.replace(/https?:\/\/\S+/g,"")
+.replace(/[^\u0900-\u097Fa-zA-Z0-9\s]/g,"");
+
+const speech = new SpeechSynthesisUtterance(cleanText);
+
+speech.lang = "hi-IN";
+speech.rate = 1;
+
+window.speechSynthesis.speak(speech);
+
+}
+
+
+// LOCATION DETECTION
 function detectLocation(message){
 
 if(message.toLowerCase().includes("lucknow")){
@@ -57,13 +74,6 @@ Address: Hazratganj, Lucknow
 
 ONLINE BLOOD AVAILABILITY CHECK:
 https://eraktkosh.in
-
-Emergency Steps:
-
-• Patient ko turant nearest hospital le jayein  
-• Doctor ko required blood group batayein  
-• Hospital blood bank se availability confirm karein  
-• Agar hospital me available na ho to e-RaktKosh par search karein
 `;
 }
 
@@ -73,7 +83,6 @@ return null;
 
 
 // EMERGENCY DETECTION
-
 function detectEmergency(message){
 
 let detectedGroup = null;
@@ -104,8 +113,6 @@ https://eraktkosh.in
 3️⃣ Indian Red Cross se contact karein:
 https://indianredcross.org
 
-4️⃣ Apna blood group doctor ko batayein
-
 ${detectedGroup ? `Required Blood Group: ${detectedGroup}` : ""}
 
 ⚠️ Agar situation emergency hai to patient ko turant hospital le jayein.
@@ -118,7 +125,6 @@ return null;
 
 
 // GEMINI AI RESPONSE
-
 async function getGeminiReply(userMessage){
 
 const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
@@ -142,9 +148,6 @@ https://eraktkosh.in
 
 Indian Red Cross:
 https://indianredcross.org
-
-If the question is unrelated reply:
-"I can only help with blood donation related questions."
 
 User Question:
 ${userMessage}
@@ -175,7 +178,6 @@ return "❌ Server error occurred.";
 
 
 // SEND MESSAGE
-
 async function sendMessage(){
 
 const message = userInput.value.trim();
@@ -184,7 +186,6 @@ if(!message) return;
 
 
 // USER MESSAGE
-
 const userMsgDiv = document.createElement("div");
 
 userMsgDiv.classList.add("user-message");
@@ -202,7 +203,6 @@ chatBox.scrollTop = chatBox.scrollHeight;
 
 
 // BOT THINKING MESSAGE
-
 const botMsgDiv = document.createElement("div");
 
 botMsgDiv.classList.add("bot-message");
@@ -218,7 +218,6 @@ chatBox.scrollTop = chatBox.scrollHeight;
 
 
 // LOCATION CHECK
-
 let locationResponse = detectLocation(message);
 
 let emergencyResponse = detectEmergency(message);
@@ -241,19 +240,20 @@ reply = await getGeminiReply(message);
 
 
 // SHOW BOT MESSAGE
-
 botMsgDiv.querySelector(".message").innerText = reply;
 
 
-// SAVE HISTORY
+// 🔊 AI VOICE REPLY
+speakHindi(reply);
 
+
+// SAVE HISTORY
 saveHistory(message,reply);
 
 }
 
 
 // SAVE CHAT HISTORY
-
 function saveHistory(userMessage,botReply){
 
 const item = document.createElement("div");
@@ -273,7 +273,6 @@ chatHistory.push({user:userMessage,bot:botReply});
 
 
 // CLEAR HISTORY
-
 clearHistoryBtn.addEventListener("click",()=>{
 
 historyList.innerHTML="";
@@ -283,7 +282,6 @@ chatHistory=[];
 
 
 // TAB SWITCH
-
 chatTab.addEventListener("click",()=>{
 
 chatTab.classList.add("active");
@@ -306,14 +304,40 @@ historyContainer.style.display="flex";
 
 
 // SEND BUTTON
-
 sendBtn.addEventListener("click",sendMessage);
 
 
 // ENTER KEY
-
 userInput.addEventListener("keypress",(e)=>{
 
 if(e.key==="Enter") sendMessage();
+
+});
+
+
+// 🎤 VOICE INPUT SYSTEM
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+
+recognition.lang = "hi-IN";
+recognition.continuous = false;
+recognition.interimResults = false;
+
+recognition.onresult = function(event){
+
+const transcript = event.results[0][0].transcript;
+
+userInput.value = transcript;
+
+sendMessage();
+
+};
+
+
+// MIC BUTTON
+micBtn.addEventListener("click",()=>{
+
+recognition.start();
 
 });
