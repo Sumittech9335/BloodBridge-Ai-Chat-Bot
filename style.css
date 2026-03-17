@@ -12,28 +12,14 @@ justify-content:center;
 align-items:center;
 }
 
-/* Dark Mode */
-
 body.dark{
-background:#2e3a46;
-color:white;
-
---bg-main:#1f2a33;
---bg-header:#111b22;
---msg-user:#000;
---msg-bot:#3b4751;
-}
-
-/* Light Mode */
-
-body.light{
-background:#f5f5f5;
+background:#eaf4ff;
 color:black;
 
 --bg-main:#ffffff;
---bg-header:#d9d9d9;
---msg-user:#8a9cb1;
---msg-bot:#ececec;
+--bg-header:#0d6efd;
+--msg-user:#2563eb;
+--msg-bot:#f1f5f9;
 }
 
 .app-container{
@@ -44,39 +30,27 @@ display:flex;
 flex-direction:column;
 }
 
-/* Header */
-
 .header{
 background:var(--bg-header);
+color:white;
 padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-border-bottom:2px solid #333;
 }
-
-/* Chat container fix */
 
 .chat-container{
 flex:1;
 display:flex;
 flex-direction:column;
-width:100%;
 }
-
-/* Chat box */
 
 .chat-box{
 flex:1;
 overflow-y:auto;
 padding:15px;
 padding-bottom:80px;
-display:flex;
-flex-direction:column;
-scroll-behavior:smooth;
 }
-
-/* Messages */
 
 .bot-message,
 .user-message{
@@ -106,9 +80,7 @@ margin-right:0;
 max-width:75%;
 padding:12px;
 border-radius:10px;
-
 word-wrap:break-word;
-word-break:break-word;
 white-space:pre-wrap;
 }
 
@@ -121,14 +93,11 @@ background:var(--msg-user);
 color:white;
 }
 
-/* Input */
-
 .input-box{
 display:flex;
-background:var(--bg-header);
+background:white;
 padding:10px;
-border-top:2px solid #333;
-
+border-top:2px solid #dbeafe;
 position:sticky;
 bottom:0;
 }
@@ -139,21 +108,18 @@ padding:12px;
 border:none;
 outline:none;
 border-radius:20px;
-background:var(--msg-user);
-color:white;
+background:#f1f5f9;
 }
 
-#send-btn{
+#send-btn,#mic-btn{
 margin-left:10px;
-padding:10px 16px;
+padding:10px 14px;
 border:none;
 border-radius:10px;
 cursor:pointer;
 background:#2563eb;
 color:white;
 }
-
-/* History */
 
 .history-container{
 flex:1;
@@ -162,14 +128,14 @@ overflow-y:auto;
 }
 
 .history-item{
-background:var(--msg-bot);
+background:#f1f5f9;
 padding:10px;
 border-radius:10px;
 margin-bottom:10px;
 }
 
 #clear-history{
-background:#ff4444;
+background:red;
 border:none;
 padding:6px 12px;
 color:white;
