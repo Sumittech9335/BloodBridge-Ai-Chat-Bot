@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BloodBridge</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark">
+
+<div class="app-container">
+
+<div class="header">
+<h1>BloodBridge</h1>
+
+<div class="tabs">
+<button id="chat-tab" class="active">Chat</button>
+<button id="history-tab">History</button>
+<button id="theme-toggle">🌙</button>
+</div>
+</div>
+
+<!-- Chat -->
+
+<div class="chat-container" id="chat-container">
+
+<div class="chat-box" id="chat-box">
+
+<div class="bot-message">
+<img src="ai.png" class="bot-icon">
+<div class="message">
+🩸 Hello! I am BloodBridge AI.  
+I help with blood donation guidance, blood compatibility, emergency blood requests, and finding blood banks.
+</div>
+</div>
+
+</div>
+
+<div class="input-box">
+<input type="text" id="user-input" placeholder="Ask about blood donation...">
+<button id="send-btn">➤</button>
+</div>
+
+</div>
+
+<!-- History -->
+
+<div class="history-container" id="history-container" style="display:none;">
+
+<div class="history-header">
+<h2>Chat History</h2>
+<button id="clear-history">Clear History</button>
+</div>
+
+<div id="history-list"></div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
